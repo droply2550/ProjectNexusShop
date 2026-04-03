@@ -63,13 +63,13 @@ python manage.py runserver
 
 ## ตัวอย่างหน้าเว็บ
 
-(ใส่รูปแคปหน้าจอ เช่น)
 
-![home](cardshop\static\images\home.png)
-![product](cardshop\static\images\product.png)
-![contact](cardshop\static\images\contact.png)
-![about](cardshop\static\images\about.png)
-![cart](cardshop\static\images\cart.png)
+
+![home](cardshop/static/images/home.png)
+![product](cardshop/static/images/product.png)
+![contact](cardshop/static/images/contact.png)
+![about](cardshop/static/images/about.png)
+![cart](cardshop/static/images/cart.png)
 
 ---
 
