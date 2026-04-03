@@ -1,15 +1,14 @@
-# Nexus
+# Nexus Shop
 
 ## รายละเอียดโปรเจค
 
-NexusFix เป็นเว็บไซต์ที่พัฒนาด้วย Django Framework
+NexusShop เป็นเว็บไซต์ที่พัฒนาด้วย Django Framework
 มีวัตถุประสงค์เพื่อ ระบบจัดการข้อมูล / ระบบแสดงสินค้า 
 
 ---
 
 ## ฟีเจอร์ของระบบ (Features)
 
-*  ระบบสมัครสมาชิก / เข้าสู่ระบบ
 *  จัดการข้อมูล (เพิ่ม / แก้ไข / ลบ)
 *  แสดงข้อมูลบนหน้าเว็บ
 *  รองรับการแสดงรูปภาพ 
@@ -58,6 +57,12 @@ python manage.py createsuperuser
 python manage.py runserver
 
 เข้าใช้งานได้ที่: http://127.0.0.1:8000/
+
+admin
+เข้าใช้งานได้ที่: http://127.0.0.1:8000/admin/
+User : nexusadmin
+Pass : nexusshop1
+
 ```
 ---
 
