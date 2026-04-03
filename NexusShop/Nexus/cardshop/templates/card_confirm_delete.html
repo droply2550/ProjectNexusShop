@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ยืนยันการลบการ์ด</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+<nav class="navbar" id="navbar">
+  <a href="{% url 'home' %}" class="nav-logo">
+    <div class="logo-icon"><img src="{% static 'images/logo.png' %}" alt="Logo"></div>
+    <div class="logo-text-wrapper">
+            <span class="logo-text">NEXUS</span><span class="logo-sub">Card Shop</span>
+        </div>
+        <div class="logo-icon-custom">
+            <img src="{% static 'images/Logo SPU SIT_Color.png' %}" alt="SIT Logo" onerror="this.style.display='none'">
+        </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="{% url 'home' %}">🏠 หน้าแรก</a></li>
+    <li><a href="{% url 'product_list' %}" class="active">🎴 สินค้า</a></li>
+    <li><a href="{% url 'contact' %}">📨 ติดต่อ</a></li>
+    <li><a href="{% url 'about' %}">👥 สมาชิก</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="{% url 'cart' %}" class="cart-btn">🛒 <span class="cart-count" style="background:var(--accent-gold);color:#080c14;padding:2px 6px;border-radius:50%;font-size:0.75rem;font-weight:700;display:{% if cart_total_items %}flex{% else %}none{% endif %};align-items:center;justify-content:center;min-width:20px;">{{ cart_total_items }}</span></a>
+  </div>
+</nav>
+<div class="container" style="padding-top:110px;">
+  <h1 class="section-title">ยืนยันการลบ</h1>
+  <p>คุณแน่ใจหรือไม่ว่าจะลบการ์ด "{{ card.name }}"?</p>
+  <form method="POST">
+    {% csrf_token %}
+    <button type="submit" class="btn-secondary btn-small" style="background:#ef4444;color:white;border:none;">ยืนยันลบ</button>
+    <a href="{% url 'product_list' %}" class="btn-primary" style="background:#ffc400;color:black;">ยกเลิก</a>
+  </form>
+</div>
+</body>
+</html>

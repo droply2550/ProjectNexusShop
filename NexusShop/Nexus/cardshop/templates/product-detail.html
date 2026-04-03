@@ -1,0 +1,165 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ card.name }} — Nexus</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐉</text></svg>">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <a href="{% url 'home' %}" class="nav-logo">
+    <div class="logo-icon"><img src="{% static 'images/logo.png' %}" alt="Logo"></div>
+    <div class="logo-text-wrapper">
+            <span class="logo-text"> NEXUS</span><span class="logo-sub">Card Shop</span>
+        </div>
+        <div class="logo-icon-custom">
+            <img src="{% static 'images/Logo SPU SIT_Color.png' %}" alt="SIT Logo" onerror="this.style.display='none'">
+        </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="{% url 'home' %}">🏠 หน้าแรก</a></li>
+    <li><a href="{% url 'product_list' %}" class="active">🎴 สินค้า</a></li>
+    <li><a href="{% url 'contact' %}">📨 ติดต่อ</a></li>
+    <li><a href="{% url 'about' %}">👥 สมาชิก</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="{% url 'cart' %}" class="cart-btn">🛒 <span class="cart-count" style="background:var(--accent-gold);color:#080c14;padding:2px 6px;border-radius:50%;font-size:0.75rem;font-weight:700;display:{% if cart_total_items %}flex{% else %}none{% endif %};align-items:center;justify-content:center;min-width:20px;">{{ cart_total_items }}</span></a>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header" style="padding-bottom:2rem">
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="{% url 'home' %}">หน้าแรก</a>
+      <span class="sep">›</span>
+      <a href="{% url 'product_list' %}">สินค้า</a>
+      <span class="sep">›</span>
+      <span class="current">{{ card.name }}</span>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCT DETAIL -->
+<div class="product-detail-page">
+  <div class="container">
+    <div class="detail-grid">
+
+      <!-- GALLERY -->
+      <div class="detail-gallery animate-up">
+        <div class="main-image-wrap">
+          <div id="main-img-area" style="width:100%;height:100%; display: flex; align-items: center; justify-content: center;">
+            {% if card.image %}
+              <img src="{{ card.image.url }}" alt="{{ card.name }}" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+            {% else %}
+              <img src="{% static 'images/no-image.png' %}" alt="No Image">
+            {% endif %}
+          </div>
+          <div class="zoom-hint">🔍 ภาพสินค้าจริง</div>
+        </div>
+      </div>
+
+      <!-- DETAIL INFO -->
+      <div class="detail-info animate-up">
+        <div class="detail-badges">
+          <span class="card-rarity rarity-{{ card.rarity|lower }}" style="position:static;border-radius:6px">{{ card.rarity }}</span>
+          <span class="tag">D Format</span>
+          <span class="tag">ของแท้ 100%</span>
+        </div>
+
+        <h1 class="detail-name">{{ card.name }}</h1>
+        <div class="detail-series">{{ card.series }}</div>
+
+        <div class="detail-price-wrap">
+          <div class="detail-price">{{ card.price }} ฿</div>
+          {% if card.original_price %}
+            <div class="detail-price-orig">{{ card.original_price }} ฿</div>
+            <div class="detail-save">ลดราคาพิเศษ</div>
+          {% endif %}
+        </div>
+
+        <!-- Stock Bar -->
+        <div class="detail-stock-bar">
+          <div class="stock-label">
+            <span>สต็อกสินค้า</span>
+            <span>{% if card.stock > 0 %}คงเหลือ {{ card.stock }} ใบ{% else %}สินค้าหมด{% endif %}</span>
+          </div>
+          <div class="stock-bar">
+            <div class="stock-fill" style="width: {% if card.stock > 10 %}100%{% else %}{{ card.stock }}0%{% endif %}"></div>
+          </div>
+        </div>
+
+        <!-- Qty & Actions -->
+        <div class="detail-qty">
+          <span class="qty-label">จำนวน</span>
+          <div class="qty-control">
+            <button class="qty-btn" id="qty-minus">−</button>
+            <span class="qty-val" id="detail-qty-val">1</span>
+            <button class="qty-btn" id="qty-plus">+</button>
+          </div>
+        </div>
+
+        <div class="detail-actions">
+          <button class="btn-primary" id="detail-add-cart" onclick="addToCart('{{ card.id }}')">
+            🛒 เพิ่มลงตะกร้า
+          </button>
+          <button class="btn-wishlist">🤍</button>
+        </div>
+
+        <!-- Specs Table -->
+        <div class="detail-specs">
+          <div class="spec-row">
+            <span class="spec-key">Nation/Clan</span>
+            <span class="spec-val">{{ card.clan }}</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-key">ความหายาก</span>
+            <span class="spec-val">{{ card.rarity }}</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-key">Format</span>
+            <span class="spec-val">D Format</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-key">สภาพการ์ด</span>
+            <span class="spec-val">Near Mint (NM)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="footer-bottom">
+      <span>Nexus © 2026 SPU - SIT . All rights reserved.</span>
+      <span>Created by Nexus Group - ICT12367</span>
+    </div>
+  </div>
+</footer>
+
+<script src="{% static 'js/main.js' %}"></script>
+<script>
+    const qtyVal = document.getElementById('detail-qty-val');
+    document.getElementById('qty-plus').addEventListener('click', () => {
+        let val = parseInt(qtyVal.innerText);
+        if(val < {{ card.stock }}) qtyVal.innerText = val + 1;
+    });
+    document.getElementById('qty-minus').addEventListener('click', () => {
+        let val = parseInt(qtyVal.innerText);
+        if(val > 1) qtyVal.innerText = val - 1;
+    });
+
+    function addToCart(id) {
+        alert("เพิ่มการ์ดลงในตะกร้าเรียบร้อยแล้ว!");
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% if card %}แก้ไข{% else %}เพิ่ม{% endif %}การ์ด — Nexus</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+<nav class="navbar" id="navbar">
+  <a href="{% url 'home' %}" class="nav-logo">
+    <div class="logo-icon"><img src="{% static 'images/logo.png' %}" alt="Logo"></div>
+    <div class="logo-text-wrapper">
+            <span class="logo-text">NEXUS</span><span class="logo-sub">Card Shop</span>
+        </div>
+        <div class="logo-icon-custom">
+            <img src="{% static 'images/Logo SPU SIT_Color.png' %}" alt="SIT Logo" onerror="this.style.display='none'">
+        </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="{% url 'home' %}">🏠 หน้าแรก</a></li>
+    <li><a href="{% url 'product_list' %}" class="active">🎴 สินค้า</a></li>
+    <li><a href="{% url 'contact' %}">📨 ติดต่อ</a></li>
+    <li><a href="{% url 'about' %}">👥 สมาชิก</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="{% url 'cart' %}" class="cart-btn">🛒 <span class="cart-count" style="background:var(--accent-gold);color:#080c14;padding:2px 6px;border-radius:50%;font-size:0.75rem;font-weight:700;display:{% if cart_total_items %}flex{% else %}none{% endif %};align-items:center;justify-content:center;min-width:20px;">{{ cart_total_items }}</span></a>
+  </div>
+</nav>
+<div class="container" style="padding-top:110px;">
+  <h1 class="section-title">{% if card %}แก้ไข{% else %}เพิ่ม{% endif %} การ์ด</h1>
+  <form method="POST" enctype="multipart/form-data" style="max-width: 700px; margin-top: 1rem;">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn-primary">บันทึก</button>
+    <a href="{% url 'product_list' %}" class="btn-secondary" style="margin-left: 8px;">ยกเลิก</a>
+  </form>
+</div>
+</body>
+</html>

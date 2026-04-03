@@ -1,0 +1,184 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ติดต่อเรา — Nexus</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐉</text></svg>">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <a href="{% url 'home' %}" class="nav-logo">
+    <div class="logo-icon">
+      <img src="{% static 'images/logo.png' %}" alt="Logo">
+    </div>
+    <div class="logo-text-wrapper">
+            <span class="logo-text"> NEXUS</span><span class="logo-sub">Card Shop</span>
+        </div>
+        <div class="logo-icon-custom">
+            <img src="{% static 'images/Logo SPU SIT_Color.png' %}" alt="SIT Logo" onerror="this.style.display='none'">
+        </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="{% url 'home' %}">🏠 หน้าแรก</a></li>
+    <li><a href="{% url 'product_list' %}">🎴 สินค้า</a></li>
+    <li><a href="{% url 'contact' %}" class="active">📨 ติดต่อ</a></li>
+    <li><a href="{% url 'about' %}">👥 สมาชิก</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="{% url 'cart' %}" class="cart-btn">🛒 <span class="cart-count" style="background:var(--accent-gold);color:#080c14;padding:2px 6px;border-radius:50%;font-size:0.75rem;font-weight:700;display:{% if cart_total_items %}flex{% else %}none{% endif %};align-items:center;justify-content:center;min-width:20px;">{{ cart_total_items }}</span></a>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="{% url 'home' %}">หน้าแรก</a>
+      <span class="sep">›</span>
+      <span class="current">ติดต่อเรา</span>
+    </div>
+    <span class="section-label">CONTACT US</span>
+    <h1 class="section-title">ติดต่อเรา</h1>
+    <p style="color:var(--text-secondary);margin-top:.75rem">มีคำถามหรือต้องการสอบถามการ์ด? เราพร้อมช่วยเสมอ</p>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="contact-page">
+  <div class="container">
+    <div class="contact-grid">
+
+      <!-- Contact Info -->
+      <div class="contact-info animate-up">
+        <div class="section-header">
+          <span class="section-label">ช่องทางติดต่อ</span>
+          <h2 class="section-title">พูดคุยกับเรา</h2>
+          <div class="divider"></div>
+          <p class="section-desc">เราตอบกลับทุกวัน ผ่านช่องทางที่คุณสะดวก ไม่ว่าจะเป็นการสอบถามสินค้า ราคา หรือการสั่งซื้อ</p>
+        </div>
+
+        <div class="info-cards">
+          <div class="info-card">
+            <div class="info-card-icon">💬</div>
+            <div>
+              <div class="info-card-title">LINE Official</div>
+              <div class="info-card-text">@Nexusshop <br>ตอบรับทุกวัน 10:00 - 22:00 น.</div>
+            </div>
+          </div>
+          <div class="info-card">
+            <div class="info-card-icon">📸</div>
+            <div>
+              <div class="info-card-title">Instagram</div>
+              <div class="info-card-text">Nexusshop <br>DM ได้ตลอด 24 ชม.</div>
+            </div>
+          </div>
+          <div class="info-card">
+            <div class="info-card-icon">📘</div>
+            <div>
+              <div class="info-card-title">Discord</div>
+              <div class="info-card-text">Nexusshopdeep<br>DM ได้ตลอด 24 ชม.</div>
+            </div>
+          </div>
+          <div class="info-card">
+            <div class="info-card-icon">📧</div>
+            <div>
+              <div class="info-card-title">อีเมล</div>
+              <div class="info-card-text">contact@nexuscard.th<br>ตอบกลับภายใน 24 ชม.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hours -->
+        <div style="margin-top:1.5rem;padding:1.25rem;background:var(--bg-card);border:1px solid var(--border-card);border-radius:var(--radius-md)">
+          <div style="font-weight:700;margin-bottom:.75rem;font-size:.875rem">⏰ เวลาทำการ</div>
+          <div style="display:flex;flex-direction:column;gap:.4rem;font-size:.82rem;color:var(--text-muted)">
+            <div style="display:flex;justify-content:space-between"><span>จันทร์ - พฤหัสบดี</span><span style="color:var(--text-primary)">10:00 - 22:00</span></div>
+            <div style="display:flex;justify-content:space-between"><span>เสาร์</span><span style="color:var(--text-primary)">09:00 - 21:00</span></div>
+            <div style="display:flex;justify-content:space-between"><span>ศุกร์ , อาทิตย์</span><span style="color:var(--accent-gold)">ปิดทำการ</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Form -->
+      <div class="animate-up">
+        <div class="contact-form-card">
+          <h3 class="contact-form-title">ส่งข้อความหาเรา</h3>
+          <p class="contact-form-desc">กรอกแบบฟอร์มด้านล่าง เราจะติดต่อกลับภายใน 24 ชั่วโมง</p>
+
+          <form id="contact-form" method="POST" action="/contact/send/">
+            {% csrf_token %}
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">ชื่อ *</label>
+                <input name="first_name" type="text" class="form-input" placeholder="ชื่อของคุณ" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">นามสกุล</label>
+                <input name="last_name" type="text" class="form-input" placeholder="นามสกุล">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">อีเมล *</label>
+              <input name="email" type="email" class="form-input" placeholder="your@email.com" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">หัวข้อ *</label>
+              <select name="subject" class="form-input" required>
+                <option value="" disabled selected>เลือกหัวข้อ</option>
+                <option>สอบถามสินค้า</option>
+                <option>ราคาและการสั่งซื้อ</option>
+                <option>การจัดส่ง</option>
+                <option>อื่นๆ</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">ข้อความ *</label>
+              <textarea name="message" class="form-textarea" placeholder="รายละเอียดที่ต้องการสอบถาม..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn-primary btn-full">📨 ส่งข้อความ</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="{% url 'home' %}" class="nav-logo">
+          <div class="logo-icon"><img src="{% static 'images/logo.png' %}" alt="Logo"></div>
+          <div><span class="logo-text"> NEXUS</span><span class="logo-sub">Card Shop</span></div>
+        </a>
+        <p class="footer-desc">ร้านขายการ์ดแวนการ์ด D Format เฉพาะทาง ของแท้ 100%</p>
+      </div>
+      <div class="footer-col">
+        <h4>เมนูหลัก</h4>
+        <ul>
+          <li><a href="{% url 'home' %}">หน้าแรก</a></li>
+          <li><a href="/products">สินค้าทั้งหมด</a></li>
+          <li><a href="/contact">ติดต่อเรา</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Nexus © 2026 SPU - SIT . All rights reserved.</span>
+      <span>Created by Nexus Group - ICT12367</span>
+    </div>
+  </div>
+</footer>
+
+<script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

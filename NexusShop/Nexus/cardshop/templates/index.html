@@ -1,0 +1,114 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus — Card Shop</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐉</text></svg>">
+</head>
+<body>
+
+<!-- ========== NAVBAR ========== -->
+<nav class="navbar" id="navbar">
+    <a href="{% url 'home' %}" class="nav-logo">
+        <div class="logo-icon">
+            <img src="{% static 'images/logo.png' %}" alt="Logo">
+        </div>
+        <div class="logo-text-wrapper">
+            <span class="logo-text"> NEXUS</span><span class="logo-sub">Card Shop</span>
+        </div>
+        <div class="logo-icon-custom">
+            <img src="{% static 'images/Logo SPU SIT_Color.png' %}" alt="SIT Logo" onerror="this.style.display='none'">
+        </div>
+    </a>
+
+    <ul class="nav-links">
+        <li><a href="{% url 'home' %}" class="active">🏠 หน้าแรก</a></li>
+        <li><a href="{% url 'product_list' %}">🎴 สินค้า</a></li>
+        <li><a href="{% url 'contact' %}">📨 ติดต่อ</a></li>
+        <li><a href="{% url 'about' %}">👥 สมาชิก</a></li>
+    </ul>
+
+    <div class="nav-actions">
+        <form action="{% url 'home' %}" method="GET" style="display: flex; gap: 5px;">
+            <input type="text" name="q" placeholder="ชื่อการ์ด..." style="padding: 5px; border-radius: 5px; border: 1px solid #ccc;">
+            <button type="submit" class="search-toggle">🔍</button>
+        </form>
+        
+        <a href="{% url 'cart' %}" class="cart-btn">🛒 <span class="cart-count" style="background:var(--accent-gold);color:#080c14;padding:2px 6px;border-radius:50%;font-size:0.75rem;font-weight:700;display:{% if cart_total_items %}flex{% else %}none{% endif %};align-items:center;justify-content:center;min-width:20px;">{{ cart_total_items }}</span></a>
+        <button class="login-btn">เข้าสู่ระบบ</button>
+    </div>
+</nav>
+
+<!-- ========== FEATURED PRODUCTS ========== -->
+<section class="featured-section" style="padding-top: 100px;">
+    <div class="container">
+        <div class="section-header animate-up">
+            <span class="section-label">การ์ดแนะนำ</span>
+            <h2 class="section-title">สินค้ายอดนิยมในฐานข้อมูล</h2>
+            <div class="divider"></div>
+        </div>
+
+        <div class="featured-grid animate-up">
+            {% for card in cards %}
+            <div class="product-card">
+                <div class="card-image-wrap">
+                    <div class="card-placeholder">
+                        {% if card.image %}
+                            <img src="{{ card.image.url }}" alt="{{ card.name }}" style="width:100%; height:auto;">
+                        {% else %}
+                            <img src="{% static 'images/no-image.png' %}" alt="No Image">
+                        {% endif %}
+                    </div>
+                    <span class="card-rarity rarity-{{ card.rarity|lower }}">{{ card.rarity }}</span>
+                </div>
+                <div class="card-info">
+                    <div class="card-name">{{ card.name }}</div>
+                    <div class="card-series">{{ card.series }}</div>
+                    <div class="card-footing">
+                        <div class="card-price">{{ card.price }} ฿</div>
+                        <div class="card-stock {% if card.stock < 5 %}low{% endif %}">
+                            คลัง: {{ card.stock }}
+                        </div>
+                    </div>
+
+                    <!-- ส่วนจัดการข้อมูล (สำหรับ Admin) -->
+                    <div style="margin-top: 15px; display: flex; gap: 10px; border-top: 1px solid #eee; padding-top: 10px;">
+                        <a href="/admin/cardshop/card/{{ card.id }}/change/" class="btn-secondary" style="font-size: 11px; flex: 1; text-align: center;">⚙️ แก้ไข</a>
+                        <button onclick="confirmDelete('{{ card.id }}', '{{ card.name }}')" class="btn-secondary" style="font-size: 11px; flex: 1; color: #ff4d4d; border-color: #ff4d4d;">🗑️ ลบ</button>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div style="text-align: center; grid-column: 1/-1; padding: 50px;">
+                <p>ไม่พบข้อมูลการ์ดในฐานข้อมูล กรุณาเพิ่มข้อมูลผ่านหน้า Admin</p>
+                <a href="/admin" class="btn-primary">ไปที่หน้า Admin</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer>
+    <div class="container" style="text-align: center; padding: 20px;">
+        <p>Nexus © 2026 SPU - SIT . All rights reserved.</p>
+        <p style="font-size: 12px; color: #888;">รหัสวิชา ICT12367 | พัฒนาโดยกลุ่ม Nexus</p>
+    </div>
+</footer>
+
+<script src="{% static 'js/main.js' %}"></script>
+
+<script>
+
+function confirmDelete(id, name) {
+    if (confirm("🚨 คำเตือน: คุณต้องการลบการ์ด '" + name + "' ใช่หรือไม่?\nการกระทำนี้ไม่สามารถย้อนกลับได้")) {
+        window.location.href = "/admin/cardshop/card/" + id + "/delete/";
+    }
+}
+</script>
+
+</body>
+</html>

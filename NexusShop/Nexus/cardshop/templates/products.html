@@ -1,0 +1,185 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>สินค้าทั้งหมด — Nexus</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐉</text></svg>">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <a href="{% url 'home' %}" class="nav-logo">
+    <div class="logo-icon"><img src="{% static 'images/logo.png' %}" alt="Logo"></div>
+    <div class="logo-text-wrapper">
+            <span class="logo-text"> NEXUS</span><span class="logo-sub">Card Shop</span>
+        </div>
+        <div class="logo-icon-custom">
+            <img src="{% static 'images/Logo SPU SIT_Color.png' %}" alt="SIT Logo" onerror="this.style.display='none'">
+        </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="{% url 'home' %}">🏠 หน้าแรก</a></li>
+    <li><a href="{% url 'product_list' %}" class="active">🎴 สินค้า</a></li>
+    <li><a href="{% url 'contact' %}">📨 ติดต่อ</a></li>
+    <li><a href="{% url 'about' %}">👥 สมาชิก</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="{% url 'cart' %}" class="cart-btn">🛒 <span class="cart-count" style="background:var(--accent-gold);color:#080c14;padding:2px 6px;border-radius:50%;font-size:0.75rem;font-weight:700;display:{% if cart_total_items %}flex{% else %}none{% endif %};align-items:center;justify-content:center;min-width:20px;">{{ cart_total_items }}</span></a>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="{% url 'home' %}">หน้าแรก</a>
+      <span class="sep">›</span>
+      <span class="current">สินค้าทั้งหมด</span>
+    </div>
+    <span class="section-label">D FORMAT SINGLE CARDS</span>
+    <h1 class="section-title">การ์ดทั้งหมด</h1>
+    <p style="color:var(--text-secondary);margin-top:.75rem">เลือกการ์ดที่ใช่สำหรับ Deck ของคุณ</p>
+  </div>
+</div>
+
+<!-- PRODUCTS PAGE -->
+<div class="products-page">
+  <div class="container">
+    <div class="products-layout">
+
+      <!-- FILTER SIDEBAR -->
+      <aside class="filter-sidebar">
+        <form id="products-page-form" method="GET" action="{% url 'product_list' %}">
+          <div class="filter-title">
+            ตัวกรอง
+            <a href="/products" class="filter-clear" style="font-size: 12px; color: var(--accent-gold);">รีเซ็ต</a>
+          </div>
+
+          <!-- Search in sidebar (เงื่อนไขที่ 1) -->
+          <div class="filter-group">
+            <input type="text" name="q" class="form-input" placeholder="🔍 ชื่อการ์ด..." value="{{ search_query }}">
+          </div>
+
+          <div class="filter-group">
+            <label class="filter-group-title" for="sort">จัดเรียง</label>
+            <select id="sort" name="sort" class="form-input" style="width: 100%;">
+              <option value="">-- เรียงตาม --</option>
+              <option value="price_asc" {% if sort == 'price_asc' %}selected{% endif %}>ราคาต่ำ->สูง</option>
+              <option value="price_desc" {% if sort == 'price_desc' %}selected{% endif %}>ราคาสูง->ต่ำ</option>
+              <option value="name_asc" {% if sort == 'name_asc' %}selected{% endif %}>ชื่อ A-Z</option>
+              <option value="name_desc" {% if sort == 'name_desc' %}selected{% endif %}>ชื่อ Z-A</option>
+            </select>
+          </div>
+
+          <!-- Rarity (เงื่อนไขที่ 2) -->
+          <div class="filter-group">
+            <div class="filter-group-title">ความหายาก</div>
+            <div class="filter-options">
+              {% for r in rarities %}
+              <label class="filter-option">
+                <input type="checkbox" name="rarity" value="{{ r }}" {% if r in selected_rarities %}checked{% endif %}> 
+                <span class="card-rarity rarity-{{ r|lower }}" style="position:static;border-radius:4px">{{ r }}</span>
+              </label>
+              {% endfor %}
+            </div>
+          </div>
+
+          <button type="submit" class="btn-primary btn-full" style="margin-top: 10px;">ค้นหา / กรอง</button>
+        </form>
+      </aside>
+
+      <!-- PRODUCTS MAIN -->
+      <div class="products-main">
+        <div class="products-toolbar" style="justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+          <div class="products-count">พบสินค้า <span>{{ cards|length }}</span> รายการ</div>
+          <div>
+            <a href="{% url 'card_add' %}" class="btn-primary btn-small" style="font-weight: 700;">➕ เพิ่มการ์ดใหม่</a>
+          </div>
+        </div>
+
+        <div class="products-grid" id="products-grid">
+          {% for card in cards %}
+          <div class="product-card" data-product-id="{{ card.pk }}" data-product-name="{{ card.name }}" data-product-series="{{ card.series }}" data-product-price="{{ card.price }}" data-product-stock="{{ card.stock }}" data-product-image="{% if card.image %}{{ card.image.url }}{% else %}{% static 'images/no-image.png' %}{% endif %}">
+            <div class="card-image-wrap">
+              <a href="{% url 'product_detail' card.pk %}" class="card-link">
+                {% if card.image %}
+                  <img src="{{ card.image.url }}" alt="{{ card.name }}" class="card-image">
+                {% else %}
+                  <img src="{% static 'images/no-image.png' %}" alt="No Image" class="card-image">
+                {% endif %}
+              </a>
+              <span class="card-rarity rarity-{{ card.rarity|lower }}">{{ card.rarity }}</span>
+            </div>
+            <div class="card-info">
+              <div class="card-name">{{ card.name }}</div>
+              <div class="card-series">{{ card.series }}</div>
+              <div class="card-footing">
+                <div class="card-price">{{ card.price }} ฿</div>
+                <div class="card-stock">คลัง: {{ card.stock }}</div>
+              </div>
+              <div style="margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap;">
+                <a href="{% url 'card_edit' card.pk %}" class="btn-secondary btn-small">✏️ แก้ไข</a>
+                <a href="{% url 'card_delete' card.pk %}" class="btn-secondary btn-small" style="background: rgba(239, 68, 68, 0.15); border-color: #ff4d4d; color: #ff4d4d;">🗑️ ลบ</a>
+                <button class="btn-primary btn-small add-to-cart-btn" data-id="{{ card.pk }}" type="button">🛒 ใส่ตะกร้า</button>
+              </div>
+            </div>
+          </div>
+          {% empty %}
+          <div style="grid-column: 1/-1; text-align: center; padding: 40px;">
+            <p>ไม่พบสินค้าที่ค้นหา</p>
+          </div>
+          {% endfor %}
+        </div>
+
+        {% if page_obj and page_obj.has_other_pages %}
+        <div class="pagination">
+          {% if page_obj.has_previous %}
+          <a href="?page={{ page_obj.previous_page_number }}&q={{ search_query }}&sort={{ sort }}{% for r in selected_rarities %}&rarity={{ r }}{% endfor %}" class="pagination-btn">‹ ก่อนหน้า</a>
+          {% endif %}
+
+          <span class="pagination-current">หน้า {{ page_obj.number }} จาก {{ page_obj.paginator.num_pages }}</span>
+
+          {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}&q={{ search_query }}&sort={{ sort }}{% for r in selected_rarities %}&rarity={{ r }}{% endfor %}" class="pagination-btn">ถัดไป ›</a>
+          {% endif %}
+        </div>
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Quick Product Modal -->
+<div id="product-modal" class="product-modal hidden">
+  <div class="product-modal-content">
+    <button id="product-modal-close" class="btn-secondary btn-small" style="position:absolute;top:12px;right:12px;">✕ ปิด</button>
+    <img id="modal-image" src="" alt="Preview" style="width:100%; border-radius: 12px;" />
+    <h3 id="modal-name" style="margin-top: 10px;">ชื่อสินค้า</h3>
+    <p id="modal-series" style="color: var(--text-muted);">ซีรี่ส์</p>
+    <p id="modal-price" style="font-weight: 700; color: var(--accent-gold);">ราคา</p>
+    <p id="modal-stock" style="font-size: 0.9rem; color: var(--text-secondary);">สต็อก</p>
+    <div style="margin-top:12px; display:flex; gap:8px;">
+      <button id="modal-add-to-cart" class="btn-primary btn-small">🛒 ใส่ตะกร้า</button>
+      <a id="modal-detail-link" class="btn-secondary btn-small" href="#">ดูรายละเอียด</a>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="footer-bottom">
+      <span>Nexus © 2026 SPU - SIT . All rights reserved.</span>
+      <span>Created by Nexus Group - ICT12367</span>
+    </div>
+  </div>
+</footer>
+
+<script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

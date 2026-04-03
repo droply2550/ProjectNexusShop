@@ -1,0 +1,142 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>สมาชิกกลุ่ม — Nexus</title>
+  <!-- เรียกใช้ไฟล์ CSS ผ่านระบบ Static ของ Django -->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/style2.css' %}">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐉</text></svg>">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <a href="{% url 'home' %}" class="nav-logo">
+    <div class="logo-icon"><img src="{% static 'images/logo.png' %}" alt="Logo"></div>
+    <div class="logo-text-wrapper"><span class="logo-text"> NEXUS</span><span class="logo-sub">Card Shop</span></div>
+    <div class="logo-icon-custom"><img src="{% static 'images/Logo SPU SIT_Color.png' %}" alt="SIT Logo" onerror="this.src='{% static 'images/logo.png' %}'"></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="{% url 'home' %}">🏠 หน้าแรก</a></li>
+    <li><a href="{% url 'product_list' %}">🎴 สินค้า</a></li>
+    <li><a href="{% url 'contact' %}">📨 ติดต่อ</a></li>
+    <li><a href="{% url 'about' %}" class="active">👥 สมาชิก</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="{% url 'cart' %}" class="cart-btn">🛒 <span class="cart-count" style="background:var(--accent-gold);color:#080c14;padding:2px 6px;border-radius:50%;font-size:0.75rem;font-weight:700;display:{% if cart_total_items %}flex{% else %}none{% endif %};align-items:center;justify-content:center;min-width:20px;">{{ cart_total_items }}</span></a>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="{% url 'home' %}">หน้าแรก</a>
+      <span class="sep">›</span>
+      <span class="current">สมาชิกกลุ่ม</span>
+    </div>
+    <span class="section-label">PROJECT TEAM</span>
+    <h1 class="section-title">สมาชิกกลุ่ม</h1>
+    <p style="color:var(--text-secondary);margin-top:.75rem">ผู้พัฒนาเว็บไซต์ Nexus Card Shop (ICT12367)</p>
+  </div>
+</div>
+
+<!-- ABOUT PAGE -->
+<div class="about-page">
+  <div class="container">
+
+    <!-- Course Card (อัปเดตข้อมูลวิชาให้ตรงตามเกณฑ์บทที่ 15) -->
+    <div class="course-header animate-up" style="margin-bottom:1.2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+      <div class="course-card" style="flex:1 1 260px;">
+        <div class="course-card-inner">
+          <div class="course-icon">📚</div>
+          <div class="course-info">
+            <div class="course-sup">รายวิชาที่พัฒนา</div>
+            <div class="course-name">การใช้กรอบงานสำหรับการพัฒนาเว็บแอปพลิเคชัน<br>เพื่อความมั่นคงปลอดภัย</div>
+            <span class="course-code">🔖 ICT12367</span>
+            <div class="course-meta">                      
+              <span>🏫 SPU · SIT</span>
+              <span>📅 2026</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Members -->
+    <div class="section-divider animate-up">
+      <div class="section-divider-line"></div>
+      <div class="section-divider-text">สมาชิกในกลุ่ม</div>
+      <div class="section-divider-line"></div>
+    </div>
+
+    <div class="members-grid">
+
+      <!-- Member 1 -->
+      <div class="member-card animate-up">
+        <div class="member-photo-area">
+          <!-- ตรวจสอบว่ามีไฟล์ member1.png ในโฟลเดอร์ static/images -->
+          <img class="member-photo" src="{% static 'images/member1.png' %}" alt="นาย พรพิพัฒน์">
+          <div class="member-photo-fade"></div>
+          <div class="member-num">1</div>
+        </div>
+        <div class="member-body">
+          <div class="member-no">สมาชิกคนที่ 1</div>
+          <div class="member-name">นาย พรพิพัฒน์ วงษสุวรรณ์</div>
+          <div class="member-id">68074788</div>
+          <span class="member-role">⭐ Developer</span>
+        </div>
+      </div>
+
+      <!-- Member 2 -->
+      <div class="member-card animate-up">
+        <div class="member-photo-area">
+          <img class="member-photo" src="{% static 'images/member2.png' %}" alt="นาย สุรภัทร">
+          <div class="member-photo-fade"></div>
+          <div class="member-num">2</div>
+        </div>
+        <div class="member-body">
+          <div class="member-no">สมาชิกคนที่ 2</div>
+          <div class="member-name">นาย สุรภัทร จันทร์นาคา</div>
+          <div class="member-id">68068075</div>
+          <span class="member-role">⭐ Developer</span>
+        </div>
+      </div>
+
+      <!-- Member 3 -->
+      <div class="member-card animate-up">
+        <div class="member-photo-area">
+          <img class="member-photo" src="{% static 'images/member3.png' %}" alt="นาย ภูมิอนันต์">
+          <div class="member-photo-fade"></div>
+          <div class="member-num">3</div>
+        </div>
+        <div class="member-body">
+          <div class="member-no">สมาชิกคนที่ 3</div>
+          <div class="member-name">นาย ภูมิอนันต์ จะวะนะ</div>
+          <div class="member-id">68090902</div>
+          <span class="member-role">⭐ Developer</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="footer-bottom">
+      <span>Nexus © 2026 SPU - SIT . All rights reserved.</span>
+      <span>Created by Nexus Group - ICT12367</span>
+    </div>
+  </div>
+</footer>
+
+<!-- เรียกใช้ไฟล์ JavaScript ผ่านระบบ Static -->
+<script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>
